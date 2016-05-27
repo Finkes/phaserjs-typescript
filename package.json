@@ -1,0 +1,19 @@
+{
+  "name": "phaser-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc -p .",
+    "start": "node_modules/.bin/http-server .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dominik Finkbeiner <finkes93@gmail.com> (http://dfinkbeiner.de)",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^2.4.8"
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}
