@@ -6,29 +6,41 @@ module MyPhaserGame {
 
         jumpButton: Phaser.Key;
         SCALE: number = 1;
+        bulletTimer = 0;
+        bulletInterval = 1000;
+        isPlayer: boolean = false;
 
 
-        constructor(game: Phaser.Game, x: number, y: number) {
+        constructor(game: Phaser.Game, x: number, y: number, isPlayer?: boolean) {
             super(game, x, y, 'simon', 0);
+            this.isPlayer = isPlayer;
             this.anchor.setTo(0.5, 0);
             this.animations.add('walk', [0, 1, 2, 3, 4, 5], 10, true);
             this.animations.add('stand', [6, 7, 8, 9, 10, 11], 10, true);
-            this.animations.add('jump', [12,13], 10, true);
+            this.animations.add('jump', [12, 13], 10, true);
             game.add.existing(this);
             this.jumpButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             this.scale.x = this.SCALE;
             this.scale.y = this.SCALE;
             this.game.physics.p2.enable(this, false);
-            this.body.setCircle(20);
+            this.body.setCircle(10);
             this.body.fixedRotation = true;
         }
 
         update() {
             this.body.velocity.x = 0;
+            if (!this.isPlayer) {
+                return;
+            }
             if (this.jumpButton.isDown && this.checkIfCanJump()) {
                 this.body.moveUp(500);
             }
-            if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ) {
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT) && this.bulletTimer + this.bulletInterval <= this.game.time.time) {
+                //shoot
+                let bullet = new Bullet(this.game, this.x + 30, this.y);
+                this.bulletTimer = this.game.time.time;
+            }
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
                 this.body.velocity.x = -150;
                 this.animations.play('walk');
 
@@ -39,6 +51,7 @@ module MyPhaserGame {
             else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
 
                 this.body.velocity.x = 150;
+                //this.body.
                 this.animations.play('walk');
 
                 if (this.scale.x < 0) {
@@ -48,11 +61,11 @@ module MyPhaserGame {
             else {
                 this.animations.play('stand');
             }
-            
-            if(!this.checkIfCanJump()){
+
+            if (!this.checkIfCanJump()) {
                 this.animations.play('jump');
-            }else{
-                
+            } else {
+
             }
         }
 

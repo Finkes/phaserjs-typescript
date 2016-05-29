@@ -21,10 +21,11 @@ module MyPhaserGame {
             this.physics.p2.restitution = 0;
             this.physics.p2.friction = 0.2;
             this.terrain = this.game.add.sprite(400, 400, 'terrain');
+            
             this.game.physics.p2.enable(this.terrain, false);
 
-            this.player = new Player(this.game, 130, 120);
-            this.player = new Player(this.game, 160, 120);
+            this.player = new Player(this.game, 130, 120, true);
+            this.player = new Player(this.game, 400, 120);
             
             this.terrain.body.clearShapes();
             this.terrain.body.loadPolygon('physics', 'terrain');
